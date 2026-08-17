@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Velocity — English Reading Fluency</title>
+<style>
+:root{
+  --bg:#080b12;--panel:#111722;--panel2:#171e2b;--line:#253044;--ink:#f2f6ff;--muted:#95a3be;
+  --lime:#c9ff4f;--violet:#9f8cff;--cyan:#53dcff;--gold:#ffd66b;--red:#ff7385;--paper:#f4f0e6;--paperInk:#20232a;
+}
+*{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+body{min-height:100vh;background:radial-gradient(circle at 10% -10%,rgba(159,140,255,.16),transparent 35rem),radial-gradient(circle at 100% 0%,rgba(83,220,255,.10),transparent 30rem),var(--bg)}
+button,input,textarea,select{font:inherit} button{cursor:pointer}.hidden{display:none!important}
+.shell{max-width:1180px;margin:auto;padding:20px 18px 60px}
+nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.03em}.mark{width:36px;height:36px;border:1px solid #39465d;border-radius:11px;display:grid;place-items:center;background:#121824}.mark:after{content:"";width:13px;height:13px;border-radius:50%;background:var(--lime);box-shadow:0 0 18px rgba(201,255,79,.55)}
+.navRight{display:flex;gap:8px;align-items:center}.pill{padding:8px 11px;border-radius:999px;background:#0e141e;border:1px solid var(--line);font-size:12px;color:var(--muted)}.pill b{color:var(--ink)}
+.card{background:linear-gradient(180deg,rgba(19,25,36,.97),rgba(13,18,27,.97));border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 55px rgba(0,0,0,.16)}
+.gamebar{display:grid;grid-template-columns:150px 1fr auto;align-items:center;gap:14px;padding:13px 15px;margin-bottom:16px}.gamebar strong{font-size:16px}.gamebar small{display:block;color:var(--muted);margin-top:2px}.xpTrack{height:9px;border-radius:99px;background:#222c3b;overflow:hidden}.xpFill{height:100%;width:0;background:linear-gradient(90deg,var(--violet),var(--lime));transition:.35s}.xpMeta{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:5px}.coins{color:var(--gold);font-weight:900}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px}@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{order:2}}@media(max-width:650px){.shell{padding:12px}.gamebar{grid-template-columns:1fr}.navRight .pill:first-child{display:none}}
+.main{padding:24px}.sidebar .card{padding:16px;margin-bottom:13px}.kicker{font-size:10px;text-transform:uppercase;letter-spacing:.15em;font-weight:900;color:var(--lime)}
+h1{font-size:clamp(34px,5vw,57px);line-height:.98;letter-spacing:-.055em;margin:10px 0 14px} h2{font-size:24px;letter-spacing:-.025em;margin:0} h3{margin:0 0 10px;font-size:14px}.lede{color:#acb8cf;line-height:1.6;font-size:16px;max-width:740px}
+.btn{border:1px solid var(--line);background:#1a2230;color:var(--ink);border-radius:12px;padding:10px 14px;font-weight:800}.btn.primary{background:var(--lime);border-color:var(--lime);color:#121700}.btn.violet{background:var(--violet);border-color:var(--violet);color:#100d18}.btn.ghost{background:transparent}.btn.small{padding:7px 10px;font-size:12px}.btn:disabled{opacity:.4;cursor:not-allowed}.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:22px 0}@media(max-width:620px){.stats{grid-template-columns:1fr 1fr}}.stat{border:1px solid var(--line);background:#0d131c;border-radius:14px;padding:14px}.stat b{font-size:21px;display:block}.stat span{font-size:10px;color:var(--muted)}
+.course{margin-top:22px}.courseHead{display:flex;justify-content:space-between;align-items:end;gap:10px}.courseHead p{margin:4px 0 0;color:var(--muted);font-size:12px}.world{margin-top:17px}.worldTitle{display:flex;align-items:center;gap:8px;margin-bottom:9px}.worldTitle b{font-size:13px}.worldTitle span{font-size:10px;color:var(--muted)}
+.nodes{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}@media(max-width:700px){.nodes{grid-template-columns:1fr 1fr}}.node{position:relative;text-align:left;border:1px solid var(--line);background:#101722;color:var(--ink);border-radius:15px;padding:13px;min-height:104px}.node.locked{opacity:.42}.node.current{border-color:var(--lime);box-shadow:inset 0 0 0 1px var(--lime)}.node.done{background:#111a13}.node .n{font-size:10px;color:var(--muted)}.node b{display:block;font-size:12px;margin:5px 0}.stars{font-size:12px;color:#4a5569;letter-spacing:1px}.stars .on{color:var(--gold)}.type{display:inline-block;font-size:9px;padding:3px 5px;border-radius:5px;background:#202a3a;color:#bdc9df}
+.coach{border-left:3px solid var(--lime);background:#10171e;border-radius:0 12px 12px 0;padding:12px 13px;color:#b7c4d9;font-size:12px;line-height:1.5}
+.quest{padding:10px 0;border-top:1px solid var(--line)}.quest:first-of-type{border-top:0}.questTop{display:flex;justify-content:space-between;font-size:11px}.questTop b{font-size:11px}.questTop span{color:var(--lime);font-weight:800}.qbar{height:5px;background:#252e3b;border-radius:99px;margin-top:7px;overflow:hidden}.qbar>i{display:block;height:100%;background:var(--lime);width:0}
+.skillRow{padding:10px 0;border-top:1px solid var(--line)}.skillRow:first-of-type{border-top:0}.skillTop{display:flex;justify-content:space-between;font-size:11px}.skillTop span{color:var(--muted)}.skillbar{height:6px;background:#242d3a;border-radius:99px;margin-top:6px;overflow:hidden}.skillbar i{display:block;height:100%;background:linear-gradient(90deg,var(--violet),var(--cyan));width:0}
+.screen{display:none}.screen.active{display:block}.screenHead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:18px}.screenHead p{color:var(--muted);font-size:12px;margin:5px 0 0;max-width:680px}.stepper{display:flex;gap:6px}.stepdot{width:24px;height:5px;border-radius:99px;background:#263041}.stepdot.on{background:var(--lime)}
+.lessonBox{border:1px solid var(--line);background:#0d131c;border-radius:17px;padding:18px}.lessonBox h3{font-size:18px}.lessonBox p{color:#acb8cf;line-height:1.55}.tip{padding:11px 12px;border-radius:11px;background:#151d29;border:1px solid #2a3548;font-size:12px;color:#c1cbe0;line-height:1.45;margin:12px 0}
+.paper{background:var(--paper);color:var(--paperInk);border-radius:16px;padding:27px clamp(18px,4vw,40px);font-family:Georgia,"Times New Roman",serif;font-size:20px;line-height:1.8}.paper .chunk{padding:2px 4px;border-radius:6px}.paper.guided .chunk{background:#e4f4b6;border-bottom:2px solid #8baa35}.slash{color:#7e67d8;font-weight:900;padding:0 4px}
+.answerGrid{display:grid;gap:8px;margin-top:12px}.answer{width:100%;text-align:left;border:1px solid #303b50;background:#151d2a;color:#e8eefb;border-radius:11px;padding:11px 12px}.answer.selected{border-color:var(--violet)}.answer.correct{border-color:var(--lime);background:#172115}.answer.wrong{border-color:var(--red);background:#24151a}
+.feedback{display:none;margin-top:12px;padding:11px 12px;border-radius:10px;font-size:12px;line-height:1.45}.feedback.show{display:block}.feedback.good{background:#152014;color:#d9f8a8;border:1px solid #344b26}.feedback.bad{background:#24151a;color:#ffb8c2;border:1px solid #5d2c35}
+.flashStage{min-height:230px;border:1px solid var(--line);background:#070a10;border-radius:16px;display:grid;place-items:center;text-align:center;padding:20px}.flashPhrase{font-size:clamp(30px,6vw,54px);font-weight:900;letter-spacing:-.04em}
+.guideWrap{position:relative}.guideLine{font-family:Georgia,"Times New Roman",serif;background:var(--paper);color:var(--paperInk);border-radius:16px;padding:27px clamp(18px,4vw,40px);font-size:20px;line-height:1.9}.guideLine span{border-radius:6px;padding:2px 3px}.guideLine span.hl{background:#d9ff80}.paceCtl{display:flex;align-items:center;gap:10px;margin-top:12px}.paceCtl input{flex:1;accent-color:var(--lime)}.paceCtl b{min-width:75px}
+.speedCards{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}@media(max-width:650px){.speedCards{grid-template-columns:1fr}}.speedCard{border:1px solid var(--line);background:#121925;border-radius:13px;padding:14px}.speedCard b{display:block;font-size:12px}.speedCard p{font-size:12px!important}.speedChoice{display:flex;gap:6px}.speedChoice button{flex:1}
+.vocabFlash{min-height:210px;border-radius:16px;background:#0a0e15;border:1px solid var(--line);display:grid;place-items:center;text-align:center;padding:20px}.vocabFlash .word{font-size:45px;font-weight:900}.vocabFlash .meaning{color:var(--muted);margin-top:8px}
+.reader{background:var(--paper);color:var(--paperInk);border-radius:16px;padding:30px clamp(19px,5vw,48px);font-family:Georgia,"Times New Roman",serif;font-size:20px;line-height:1.82;max-height:58vh;overflow:auto}.reader p{margin:0 0 1.15em}.reader .vocab{border-bottom:2px dotted #7f67d8;cursor:pointer}.timer{font-variant-numeric:tabular-nums;color:var(--lime);font-weight:900}.topicGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}@media(max-width:700px){.topicGrid{grid-template-columns:1fr}}.topicCard{border:1px solid var(--line);background:#101722;border-radius:14px;padding:14px;text-align:left;color:var(--ink)}.topicCard b{display:block}.topicCard span{font-size:11px;color:var(--muted)}
+.resultHero{text-align:center;padding:15px}.bigScore{font-size:70px;font-weight:900;letter-spacing:-.07em;line-height:1}.bigScore small{font-size:18px;color:var(--muted)}.resultGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}@media(max-width:600px){.resultGrid{grid-template-columns:1fr}}.result{border:1px solid var(--line);background:#0d131c;border-radius:13px;padding:13px}.result b{display:block;font-size:21px}.result span{font-size:10px;color:var(--muted)}
+.modal{position:fixed;inset:0;background:rgba(2,4,8,.76);z-index:50;display:none;place-items:center;padding:16px}.modal.show{display:grid}.modalBox{width:min(620px,100%);background:#121925;border:1px solid #344158;border-radius:18px;padding:18px}.modalBox textarea{width:100%;height:230px;resize:vertical;background:#090d14;color:var(--ink);border:1px solid #2d384a;border-radius:12px;padding:12px;line-height:1.5}
+.toast{position:fixed;z-index:90;left:50%;top:18%;transform:translate(-50%,-50%) scale(.85);opacity:0;pointer-events:none;transition:.2s;background:#151d29;border:1px solid #43516b;border-radius:16px;padding:14px 18px;text-align:center;box-shadow:0 25px 70px rgba(0,0,0,.5)}.toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}.toast b{display:block;color:var(--lime);font-size:21px}.toast span{font-size:11px;color:var(--muted)}
+
+/* V4 research-informed additions */
+.modeGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.modeCard{border:1px solid var(--line);background:#0f1621;color:var(--ink);border-radius:16px;padding:16px;text-align:left}
+.modeCard .tag{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.modeCard b{font-size:16px;display:block;margin:6px 0}.modeCard p{font-size:12px;line-height:1.45;color:#a9b5ca;margin:0}
+.modeCard.fluency{box-shadow:inset 0 2px 0 var(--lime)}.modeCard.careful{box-shadow:inset 0 2px 0 var(--violet)}.modeCard.skim{box-shadow:inset 0 2px 0 var(--cyan)}
+@media(max-width:700px){.modeGrid{grid-template-columns:1fr}}
+.baselineTable{display:grid;gap:7px}.baselineRow{display:grid;grid-template-columns:1fr repeat(3,55px);gap:5px;align-items:center;font-size:10px}
+.baselineRow span{color:var(--muted);text-align:right}.baselineRow b{font-size:10px}
+.recallBox{margin-top:12px}.recallBox textarea{width:100%;min-height:105px;background:#0a1018;color:var(--ink);border:1px solid #303b50;border-radius:11px;padding:11px;resize:vertical;line-height:1.45}
+.difficultyGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.diff{border:1px solid var(--line);background:#121925;color:var(--ink);border-radius:13px;padding:13px;text-align:left}.diff b{display:block}.diff span{font-size:11px;color:var(--muted)}
+@media(max-width:650px){.difficultyGrid{grid-template-columns:1fr}}
+.vocabDue{font-size:10px;color:var(--cyan);margin-top:6px}
+.familiarity{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.familiarity button{border:1px solid var(--line);background:#131b27;color:var(--ink);border-radius:11px;padding:10px}.familiarity button b{display:block;font-size:12px}.familiarity button span{font-size:10px;color:var(--muted)}
+.transferGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:650px){.transferGrid{grid-template-columns:1fr}}
+.transferCard{border:1px solid var(--line);border-radius:14px;background:#111824;padding:14px}.transferCard b{font-size:12px}.transferCard p{font-size:12px;color:var(--muted);line-height:1.5}
+
+</style>
+</head>
+<body>
+<div class="shell">
+<nav>
+  <div class="brand"><div class="mark"></div><span>Velocity</span></div>
+  <div class="navRight"><span class="pill">English · <b id="cefr">B2</b></span><span class="pill">🔥 <b id="streak">0</b></span></div>
+</nav>
+
+<div class="card gamebar">
+  <div><strong id="levelName">Level 1</strong><small id="rankName">Phrase Rookie</small></div>
+  <div><div class="xpTrack"><div class="xpFill" id="xpFill"></div></div><div class="xpMeta"><span id="xpText">0 XP</span><span id="xpNext">100 to next level</span></div></div>
+  <div class="coins">◆ <span id="coins">0</span></div>
+</div>
+
+<div class="layout">
+<main class="card main">
+<section id="home" class="screen active">
+  <div class="kicker">English reading fluency</div>
+  <h1>Train the bottleneck.<br>Not just the timer.</h1>
+  <p class="lede">Velocity teaches faster reading through active practice: phrase recognition, smoother forward reading, vocabulary automaticity, flexible pacing, and real texts. Speed only counts when understanding stays strong.</p>
+  <div class="modeGrid">
+    <button class="modeCard fluency" onclick="chooseReadingMode('fluency')"><span class="tag">Gear 1</span><b>Fluency</b><p>Comfortable English. Build automaticity and smooth reading while keeping ≥85% comprehension.</p></button>
+    <button class="modeCard careful" onclick="chooseReadingMode('careful')"><span class="tag">Gear 2</span><b>Careful reading</b><p>Dense or important text. Slow down deliberately and preserve details and inference.</p></button>
+    <button class="modeCard skim" onclick="chooseReadingMode('skim')"><span class="tag">Gear 3</span><b>Skim for gist</b><p>Time-limited search for structure and main ideas. Scored separately from normal reading.</p></button>
+  </div>
+  <div class="row">
+    <button class="btn primary" id="continueBtn" onclick="continueCourse()">Continue course</button>
+    <button class="btn violet" onclick="reviewDueVocab()">Review due words</button>
+    <button class="btn ghost" onclick="openCustom()">Use my own text</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b id="controlledWpm">—</b><span>FLUENCY · NORMAL</span></div>
+    <div class="stat"><b id="avgComp">—</b><span>AVG COMPREHENSION</span></div>
+    <div class="stat"><b id="dueCount">0</b><span>VOCAB DUE TODAY</span></div>
+    <div class="stat"><b id="readMinutes">0</b><span>REAL READING MIN</span></div>
+  </div>
+
+  <div class="coach" id="coachNote">Start with Lesson 1. There is no speed test until you have practised the underlying skills.</div>
+
+  <div class="course">
+    <div class="courseHead"><div><h2>Course map</h2><p>24 micro-lessons. Assistance gradually disappears as fluency improves.</p></div><span class="pill" id="coursePosition">0 / 24</span></div>
+    <div id="courseMap"></div>
+  </div>
+</section>
+
+<section id="lesson" class="screen">
+  <div class="screenHead"><div><div class="kicker" id="lessonKicker">Lesson</div><h2 id="lessonTitle"></h2><p id="lessonSubtitle"></p></div><div class="stepper"><i class="stepdot on"></i><i class="stepdot"></i><i class="stepdot"></i></div></div>
+  <div id="lessonContent"></div>
+</section>
+
+<section id="readerScreen" class="screen">
+  <div class="screenHead"><div><div class="kicker" id="readerKicker">Real reading</div><h2 id="readerTitle">Read for meaning</h2><p id="readerSub">This is not a sprint. Use the pace that preserves understanding.</p></div><div class="timer" id="timer">00:00</div></div>
+  <div class="reader" id="reader"></div>
+  <div class="row" style="margin-top:13px"><button class="btn primary" onclick="finishReading()">Finished reading</button><button class="btn ghost" onclick="show('home')">Exit</button></div>
+</section>
+
+<section id="quizScreen" class="screen">
+  <div class="screenHead"><div><div class="kicker">Meaning check</div><h2>Prove you understood it</h2><p>Reading speed is only useful when the main ideas survive.</p></div></div>
+  <div id="quizBox" class="answerGrid"></div>
+  <div class="lessonBox recallBox" id="recallBox">
+    <h3>Active recall</h3>
+    <p>Without looking back, explain the central idea in 1–2 sentences. This is deliberately harder than recognizing a multiple-choice answer.</p>
+    <textarea id="recallText" placeholder="The text is mainly about..."></textarea>
+  </div>
+  <div class="row" style="margin-top:13px"><button class="btn primary" onclick="scoreReadingQuiz()">Score understanding</button></div>
+</section>
+
+<section id="results" class="screen">
+  <div class="resultHero"><div class="kicker">Session complete</div><div class="bigScore" id="resWpm">0<small> WPM</small></div><p class="lede" id="resMessage" style="margin:8px auto 0"></p></div>
+  <div class="resultGrid">
+    <div class="result"><b id="resComp">—</b><span>COMPREHENSION</span></div>
+    <div class="result"><b id="resRecall">—</b><span>ACTIVE RECALL</span></div>
+    <div class="result"><b id="resDelta">—</b><span>MATCHED BASELINE</span></div>
+    <div class="result"><b id="resXP">+0 XP</b><span>MASTERY REWARD</span></div>
+  </div>
+  <div class="coach" id="resultCoach" style="margin-top:13px"></div>
+  <div class="row" style="margin-top:14px"><button class="btn primary" onclick="show('home');refresh()">Back to course</button><button class="btn ghost" onclick="continueCourse()">Next lesson</button></div>
+</section>
+</main>
+
+<aside class="sidebar">
+  <div class="card">
+    <h3>Matched baselines</h3>
+    <div class="baselineTable" id="baselineTable"></div>
+  </div>
+  <div class="card">
+    <h3>Today’s quests</h3>
+    <div class="quest"><div class="questTop"><b>Skill practice</b><span>+20 XP</span></div><div class="qbar"><i id="qLesson"></i></div></div>
+    <div class="quest"><div class="questTop"><b>Meaning first ≥85%</b><span>+20 XP</span></div><div class="qbar"><i id="qComp"></i></div></div>
+    <div class="quest"><div class="questTop"><b>Read 10 real minutes</b><span>+25 XP</span></div><div class="qbar"><i id="qRead"></i></div></div>
+  </div>
+  <div class="card">
+    <h3>Skill profile</h3>
+    <div class="skillRow"><div class="skillTop"><b>Phrase recognition</b><span id="sChunkTxt">0%</span></div><div class="skillbar"><i id="sChunk"></i></div></div>
+    <div class="skillRow"><div class="skillTop"><b>Forward flow</b><span id="sFlowTxt">0%</span></div><div class="skillbar"><i id="sFlow"></i></div></div>
+    <div class="skillRow"><div class="skillTop"><b>Vocabulary automaticity</b><span id="sVocabTxt">0%</span></div><div class="skillbar"><i id="sVocab"></i></div></div>
+    <div class="skillRow"><div class="skillTop"><b>Flexible pacing</b><span id="sPaceTxt">0%</span></div><div class="skillbar"><i id="sPace"></i></div></div>
+    <div class="skillRow"><div class="skillTop"><b>Strategic skimming</b><span id="sSkimTxt">0%</span></div><div class="skillbar"><i id="sSkim"></i></div></div>
+    <div class="skillRow"><div class="skillTop"><b>Active recall</b><span id="sRecallTxt">0%</span></div><div class="skillbar"><i id="sRecall"></i></div></div>
+  </div>
+  <div class="card">
+    <h3>Why this next?</h3>
+    <div class="coach" id="whyNext">The course begins with phrase grouping because it transfers directly into normal reading.</div>
+  </div>
+  <div class="card">
+    <h3>Weekly boss</h3>
+    <p style="font-size:11px;color:var(--muted);line-height:1.45;margin:0 0 10px">Beat your rolling, difficulty-matched baseline while keeping ≥85% comprehension.</p>
+    <button class="btn small violet" id="bossBtn" onclick="startBoss()" disabled>Unlock after 4 lessons</button>
+  </div>
+</aside>
+</div>
+</div>
+
+<div class="modal" id="customModal">
+ <div class="modalBox">
+  <h3>Train on your own English</h3>
+  <p style="font-size:12px;color:var(--muted)">Paste a school text, article, or something you genuinely want to read. Custom texts count toward real-reading time but are not auto-scored for comprehension.</p>
+  <textarea id="customText" placeholder="Paste at least 100 words..."></textarea>
+  <div class="row"><button class="btn primary" onclick="useCustom()">Read this text</button><button class="btn ghost" onclick="closeCustom()">Cancel</button></div>
+ </div>
+</div>
+
+<div class="toast" id="toast"><b id="toastTitle"></b><span id="toastText"></span></div>
+
+<script>
+const worlds=[
+ ["Phrase Vision","Stop reading word-by-word",["Find the chunks","Common phrase patterns","Chunk recognition","Phrase boss"]],
+ ["Forward Flow","Keep moving while meaning is clear",["Guided line","Fade the guide","Smooth paragraph","Flow boss"]],
+ ["Word Automaticity","Make frequent English instantly familiar",["Fast meanings","Academic chunks","Word families","Vocabulary boss"]],
+ ["Flexible Speed","Match pace to difficulty",["Easy vs dense","Punctuation rhythm","Sentence complexity","Pacing boss"]],
+ ["Real Reading","Transfer skills into normal texts",["Tech article","Science article","Culture article","Real-text boss"]],
+ ["Independent Fluency","Use less help, keep more meaning",["Minimal guidance","Longer reading","Personal weak spot","Final boss"]]
+];
+const lessons=[];
+worlds.forEach((w,wi)=>w[2].forEach((name,li)=>{
+  const types=[
+    ["chunk","chunk","flash","boss"],
+    ["guide","guide","guide","boss"],
+    ["vocab","vocab","vocab","boss"],
+    ["pace","pace","pace","boss"],
+    ["extensive","extensive","extensive","boss"],
+    ["mixed","extensive","adaptive","boss"]
+  ];
+  lessons.push({id:wi*4+li+1,world:wi,title:name,type:types[wi][li]});
+}));
+
+const chunkItems=[
+ {sentence:"The fastest route is not to force the eyes to move at extreme speed.",options:["The fastest route / is not to force the eyes / to move at extreme speed.","The / fastest route is / not to force / the eyes to move / at extreme speed.","The fastest / route is not / to force the / eyes to move at / extreme speed."],correct:0},
+ {sentence:"Good learning tools give feedback while the learner still remembers the decision.",options:["Good learning tools / give feedback / while the learner still remembers the decision.","Good / learning tools give / feedback while / the learner still / remembers the decision.","Good learning / tools give feedback while / the learner / still remembers / the decision."],correct:0},
+ {sentence:"A fluent reader spends less effort decoding words that have become familiar.",options:["A fluent reader / spends less effort / decoding words / that have become familiar.","A / fluent reader spends / less effort decoding / words that / have become familiar.","A fluent / reader spends less / effort decoding words / that have / become familiar."],correct:0}
+];
+
+const flashItems=[
+ {phrase:"as a result of",meaning:"because of / caused by",alts:["before","instead of"]},
+ {phrase:"in contrast to",meaning:"showing a difference from",alts:["in addition to","because of"]},
+ {phrase:"one of the most",meaning:"a member of a highest-ranked group",alts:["almost none of","the same as"]},
+ {phrase:"is likely to",meaning:"will probably",alts:["must never","used to"]},
+ {phrase:"in the long run",meaning:"over a long period of time",alts:["immediately","at the beginning"]}
+];
+
+const vocabItems=[
+ ["significant","important enough to matter"],["maintain","keep something at the same level"],["decline","become lower or weaker"],["evidence","information supporting a conclusion"],["approach","a way of dealing with something"],["factor","something that influences a result"],["relevant","closely connected to the subject"],["estimate","calculate roughly"]
+];
+
+const guidePassage="Strong readers do not use one fixed speed. They move quickly through familiar material, slow down when a sentence becomes dense, and sometimes reread when meaning breaks. The aim is not constant speed. The aim is efficient understanding.";
+const paceItems=[
+ {label:"Easy",text:"The bus arrived five minutes early.",best:"fast"},
+ {label:"Medium",text:"Although the first plan failed, the team used what it learned to design a better one.",best:"medium"},
+ {label:"Dense",text:"Because the apparent correlation disappeared after researchers controlled for age and prior knowledge, the original explanation became much less convincing.",best:"slow"}
+];
+
+const texts=[
+ {topic:"Technology",level:"B1–B2",title:"Why recommendation systems feel personal",text:`Recommendation systems are everywhere. They decide which songs appear next, which videos are suggested, and which products receive attention. The systems are not reading a person's mind. Instead, they look for patterns in previous behavior.
+
+If someone often watches short science videos, a platform may predict that another science video has a good chance of keeping that person interested. The prediction can also use information from other users with similar habits. This creates a feedback loop: the system makes a suggestion, the user responds, and the next suggestion changes.
+
+This can be useful because it reduces the effort needed to find relevant material. It can also create a narrow experience. If a system becomes too confident about what someone likes, unfamiliar ideas may appear less often. Good recommendation design therefore has to balance relevance with variety.
+
+For a reader, this is a useful reminder that convenience has a cost. A feed can help us discover things quickly, but choosing some material for ourselves can expose us to subjects that an algorithm would never predict.`,questions:[
+ ["What do recommendation systems mainly use?","Patterns in previous behavior",["Mind reading","Random choices"]],["What risk does the passage mention?","A narrower experience",["Slower internet","Fewer devices"]],["What balance does good design need?","Relevance and variety",["Speed and price","Text and video"]]
+ ]},
+ {topic:"Science",level:"B2",title:"Why sleep helps learning",text:`Sleep is not simply a period in which the brain switches off. During sleep, the brain continues to process information from the day. Researchers have found that sleep supports several kinds of memory, including memories for facts and skills.
+
+One reason is that newly learned information is initially fragile. With time, some memories become more stable through a process often called consolidation. Sleep appears to support this process, although the exact mechanisms vary across memory types.
+
+This matters for students because extra study time is not always equal to extra learning. Studying very late and then sleeping too little can reduce attention the next day and may also interfere with remembering what was studied. A shorter, focused study session followed by adequate sleep may therefore be more effective than extending study deep into the night.
+
+The broader lesson is that learning depends on more than exposure to information. Attention, practice, recovery, and prior knowledge all influence how efficiently new information becomes usable knowledge.`,questions:[
+ ["What is one role of sleep described here?","Supporting memory consolidation",["Stopping all brain activity","Replacing practice"]],["Why can very late study be inefficient?","It may reduce sleep and next-day attention",["Night lessons are always harder","Books are less clear at night"]],["What is the broader lesson?","Learning depends on several interacting factors",["Only study duration matters","Memory cannot improve"]]
+ ]},
+ {topic:"Culture",level:"B2",title:"Why slang changes so quickly",text:`Slang changes faster than most formal vocabulary because it is strongly connected to social identity. A new expression can signal that someone belongs to a particular group, follows a certain online community, or understands a shared joke.
+
+Once an expression becomes extremely common, it can lose some of that special social value. People then create or adopt new expressions. Online communication accelerates this cycle because a phrase can spread across countries in a matter of days.
+
+This creates an interesting problem for language learners. Slang can make real conversations easier to understand, but memorizing every fashionable expression is inefficient. Many disappear quickly, and some sound strange outside a narrow context.
+
+A better strategy is to recognize common slang without feeling pressure to use all of it. Learners can focus first on standard vocabulary and grammar, then gradually add informal expressions that appear repeatedly in the communities, films, games, or conversations they actually encounter.`,questions:[
+ ["Why does slang change quickly?","It is tied to social identity and group membership",["Formal dictionaries require it","Grammar rules force changes"]],["What does the passage recommend learners do?","Recognize common slang and add useful expressions gradually",["Memorize every new expression","Avoid all informal language"]],["Why can memorizing all slang be inefficient?","Many expressions disappear quickly",["Slang has no meaning","It is always ungrammatical"]]
+ ]}
+];
+
+let currentLesson=null, selectedAnswer=null, lessonScore=0, chunkIndex=0, chunkCorrect=0, flashIndex=0, flashCorrect=0, flashTimer=null;
+let guideTimer=null, guideIndex=0, guideWpm=230, readingStart=0, readingSeconds=0, readingText=null, readingQuiz={}, readingMode="extensive", bossMode=false;
+
+function el(id){return document.getElementById(id)}
+function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));el(id).classList.add("active");window.scrollTo({top:0,behavior:"smooth"})}
+function data(){
+  try{return Object.assign({xp:0,coins:0,completed:{},skills:{chunk:0,flow:0,vocab:0,pace:0},baseline:null,sessions:[],realMinutes:0,lastDay:null,streak:0,quests:{day:null,lesson:false,comp:false,read:0}},JSON.parse(localStorage.getItem("velocityV2"))||{})}
+  catch(e){return {xp:0,coins:0,completed:{},skills:{chunk:0,flow:0,vocab:0,pace:0},baseline:null,sessions:[],realMinutes:0,lastDay:null,streak:0,quests:{day:null,lesson:false,comp:false,read:0}}}
+}
+function save(d){localStorage.setItem("velocityV2",JSON.stringify(d))}
+function dayKey(){return new Date().toISOString().slice(0,10)}
+function normalize(d){
+  d.completed=d.completed||{};d.skills=Object.assign({chunk:0,flow:0,vocab:0,pace:0},d.skills||{});
+  d.quests=Object.assign({day:null,lesson:false,comp:false,read:0},d.quests||{});
+  if(d.quests.day!==dayKey())d.quests={day:dayKey(),lesson:false,comp:false,read:0};
+  return d
+}
+function toast(title,text){el("toastTitle").textContent=title;el("toastText").textContent=text;el("toast").classList.add("show");setTimeout(()=>el("toast").classList.remove("show"),1600)}
+function award(amount,why,coins=0){let d=normalize(data());d.xp+=amount;d.coins+=coins;save(d);refresh();toast("+"+amount+" XP",why+(coins?" · +"+coins+" ◆":""))}
+function starString(n){return `<span class="${n>=1?'on':''}">★</span><span class="${n>=2?'on':''}">★</span><span class="${n>=3?'on':''}">★</span>`}
+function nextLessonId(){let d=normalize(data());for(let i=1;i<=24;i++)if(!d.completed[i])return i;return 24}
+function lessonUnlocked(id){if(id===1)return true;let d=normalize(data());return !!d.completed[id-1]}
+function continueCourse(){startLesson(nextLessonId())}
+function refresh(){
+  let d=normalize(data());save(d);
+  let level=Math.floor(d.xp/100)+1, inLevel=d.xp%100;
+  const ranks=["Phrase Rookie","Flow Builder","Word Runner","Fluency Ranger","Meaning Ace","Independent Reader"];
+  el("levelName").textContent="Level "+level;el("rankName").textContent=ranks[Math.min(ranks.length-1,Math.floor((level-1)/2))];
+  el("xpFill").style.width=inLevel+"%";el("xpText").textContent=d.xp+" XP";el("xpNext").textContent=(100-inLevel)+" to next level";el("coins").textContent=d.coins;el("streak").textContent=d.streak||0;
+  let comps=Object.keys(d.completed).length;el("coursePct").textContent=Math.round(comps/24*100)+"%";el("coursePosition").textContent=comps+" / 24";
+  el("controlledWpm").textContent=d.baseline?Math.round(d.baseline.wpm):"—";
+  let scored=d.sessions.filter(s=>s.comp!=null);el("avgComp").textContent=scored.length?Math.round(scored.reduce((a,s)=>a+s.comp,0)/scored.length)+"%":"—";
+  el("readMinutes").textContent=Math.round(d.realMinutes||0);
+  ["chunk","flow","vocab","pace"].forEach(k=>{let v=Math.round(d.skills[k]||0);el("s"+k[0].toUpperCase()+k.slice(1)).style.width=v+"%";el("s"+k[0].toUpperCase()+k.slice(1)+"Txt").textContent=v+"%"});
+  el("qLesson").style.width=(d.quests.lesson?100:0)+"%";el("qComp").style.width=(d.quests.comp?100:0)+"%";el("qRead").style.width=Math.min(100,(d.quests.read||0)/10*100)+"%";
+  let weak=Object.entries(d.skills).sort((a,b)=>a[1]-b[1])[0];
+  const labels={chunk:"phrase recognition",flow:"forward flow",vocab:"vocabulary automaticity",pace:"flexible pacing"};
+  el("coachNote").textContent=comps===0?"Start with Lesson 1. There is no speed test until you have practised the underlying skills.":`Your weakest measured skill is ${labels[weak[0]]}. The course will keep revisiting it while assistance fades.`;
+  el("whyNext").textContent=comps===0?"Phrase grouping comes first because it transfers directly into normal paragraph reading.":`Next priority: ${labels[weak[0]]}. Accuracy matters more than raw speed.`;
+  el("bossBtn").disabled=comps<4;el("bossBtn").textContent=comps<4?"Unlock after 4 lessons":"Attempt personal boss";
+  renderCourse();
+}
+function renderCourse(){
+  let d=normalize(data()), html="";
+  worlds.forEach((w,wi)=>{
+    html+=`<div class="world"><div class="worldTitle"><b>${wi+1}. ${w[0]}</b><span>${w[1]}</span></div><div class="nodes">`;
+    lessons.filter(l=>l.world===wi).forEach(l=>{
+      let done=d.completed[l.id], locked=!lessonUnlocked(l.id), current=l.id===nextLessonId();
+      html+=`<button class="node ${done?'done':''} ${locked?'locked':''} ${current?'current':''}" ${locked?'disabled':''} onclick="startLesson(${l.id})"><span class="n">LESSON ${l.id}</span><b>${l.title}</b><span class="type">${l.type}</span><div class="stars">${starString(done?done.stars:0)}</div></button>`;
+    });
+    html+="</div></div>";
+  });el("courseMap").innerHTML=html;
+}
+function startLesson(id){
+  currentLesson=lessons.find(x=>x.id===id);if(!currentLesson||!lessonUnlocked(id))return;chunkIndex=0;chunkCorrect=0;
+  el("lessonKicker").textContent=`World ${currentLesson.world+1} · Lesson ${id}`;
+  el("lessonTitle").textContent=currentLesson.title;
+  const subs={chunk:"Learn to see meaning in phrases, then identify the best grouping yourself.",flash:"Make common multi-word English instantly familiar.",guide:"Transfer phrase reading into a normal paragraph with fading guidance.",vocab:"Build fast access to high-frequency academic vocabulary.",pace:"Choose speed based on difficulty, not ego.",extensive:"Read a normal text you care about and keep the meaning.",mixed:"Use multiple fluency skills with minimal help.",adaptive:"Train your weakest skill before the final test.",boss:"A mastery checkpoint based on accuracy and your own baseline."};
+  el("lessonSubtitle").textContent=subs[currentLesson.type]||"Master the skill, then move on.";
+  renderLessonType(currentLesson.type);show("lesson")
+}
+function renderLessonType(type){
+  if(type==="chunk"){renderChunk()}
+  else if(type==="flash"){renderFlashIntro()}
+  else if(type==="guide"){renderGuide()}
+  else if(type==="vocab"){renderVocab()}
+  else if(type==="pace"){renderPace()}
+  else if(type==="extensive"){renderTopicPick(false)}
+  else if(type==="mixed"){renderChunk(true)}
+  else if(type==="adaptive"){renderAdaptive()}
+  else if(type==="boss"){renderBossLesson()}
+}
+function renderChunk(mixed=false){
+  if(chunkIndex===0)chunkCorrect=0;
+  if(chunkIndex>=3){let score=Math.round(chunkCorrect/3*100);chunkIndex=0;finishMicroLesson(score,"chunk");return}
+  lessonScore=0;let item=chunkItems[(currentLesson.id+chunkIndex-1)%chunkItems.length];
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>${mixed?'Minimal-help transfer':'Find the natural phrase groups'}</h3><p>Choose the version that groups words by meaning and grammar. Do not count words mechanically.</p><div class="paper">${item.sentence}</div><div class="answerGrid">${item.options.map((o,i)=>`<button class="answer" onclick="checkChunk(this,${i},${item.correct},${mixed})">${o}</button>`).join("")}</div><div id="feedback" class="feedback"></div><div style="font-size:11px;color:var(--muted);margin-top:9px">${chunkIndex+1} / 3</div></div>`;
+}
+function checkChunk(btn,i,correct,mixed){
+  if(el("feedback").classList.contains("show"))return;
+  document.querySelectorAll(".answer").forEach(x=>x.classList.remove("selected"));btn.classList.add("selected");
+  let ok=i===correct;if(ok)chunkCorrect++;btn.classList.add(ok?"correct":"wrong");let f=el("feedback");f.className="feedback show "+(ok?"good":"bad");f.textContent=ok?"Correct. The groups preserve meaningful units rather than slicing the sentence at arbitrary word counts.":"Not quite. Look for grammatical units: subject phrase, verb phrase, and attached modifiers.";
+  chunkIndex++;
+  setTimeout(()=>renderChunk(mixed),850);
+}
+function renderFlashIntro(){
+  flashIndex=0;flashCorrect=0;
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>Recognize common chunks as one unit</h3><p>You will see a phrase briefly, then choose its meaning. The goal is immediate recognition, not memorizing isolated words.</p><div class="flashStage"><div><div class="flashPhrase" id="flashPhrase">Ready?</div><div style="color:var(--muted);font-size:12px;margin-top:8px" id="flashHint">5 rounds</div></div></div><div class="row" style="margin-top:12px"><button class="btn primary" onclick="nextFlash()">Start</button></div></div>`;
+}
+function nextFlash(){
+  if(flashIndex>=5){finishMicroLesson(Math.round(flashCorrect/5*100),"chunk");return}
+  let item=flashItems[flashIndex%flashItems.length];el("flashPhrase").textContent=item.phrase;el("flashHint").textContent="Read it as one unit";
+  setTimeout(()=>{el("flashPhrase").textContent="•••";let opts=[item.meaning,...item.alts].sort(()=>Math.random()-.5);el("flashHint").innerHTML=opts.map(o=>`<button class="answer" style="margin-top:7px" onclick='answerFlash(${JSON.stringify(o)},${JSON.stringify(item.meaning)})'>${o}</button>`).join("")},850);
+}
+function answerFlash(ans,correct){if(ans===correct)flashCorrect++;flashIndex++;nextFlash()}
+function renderGuide(){
+  guideIndex=0;guideWpm=220;clearInterval(guideTimer);
+  let tokens=guidePassage.split(/\s+/);
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>Follow the moving phrase, not a single flashing word</h3><p>The whole paragraph stays visible. Guidance will move through it and then fade, so the skill transfers back to normal reading.</p><div class="guideWrap"><div class="guideLine" id="guideLine">${tokens.map((w,i)=>`<span id="gw${i}">${w}</span>`).join(" ")}</div></div><div class="paceCtl"><span>Gentle</span><input id="guideSpeed" type="range" min="180" max="360" step="10" value="220" oninput="guideWpm=+this.value;el('guideWpm').textContent=this.value+' WPM'"><b id="guideWpm">220 WPM</b></div><div class="row" style="margin-top:12px"><button class="btn primary" id="guideBtn" onclick="startGuide()">Start guided pass</button></div></div>`;
+}
+function startGuide(){
+  clearInterval(guideTimer);guideIndex=0;let words=guidePassage.split(/\s+/);let btn=el("guideBtn");btn.disabled=true;btn.textContent="Guiding…";
+  guideTimer=setInterval(()=>{
+    words.forEach((_,i)=>el("gw"+i)?.classList.toggle("hl",i>=guideIndex&&i<guideIndex+3));
+    guideIndex+=3;
+    if(guideIndex>=words.length){
+      clearInterval(guideTimer);words.forEach((_,i)=>el("gw"+i)?.classList.remove("hl"));
+      btn.disabled=false;btn.textContent="Repeat guided pass";
+      if(!el("independentPass")){
+        let x=document.createElement("button");x.id="independentPass";x.className="btn ghost";x.textContent="Now read it once without guidance";
+        x.onclick=()=>{x.disabled=true;x.textContent="Independent pass complete ✓";setTimeout(()=>finishMicroLesson(92,"flow"),500)};
+        btn.parentElement.appendChild(x);
+      }
+    }
+  },60000/guideWpm*3);
+}
+function renderVocab(){
+  flashIndex=0;flashCorrect=0;renderVocabCard();
+}
+function renderVocabCard(){
+  if(flashIndex>=6){finishMicroLesson(Math.round(flashCorrect/6*100),"vocab");return}
+  let [w,m]=vocabItems[(currentLesson.id+flashIndex)%vocabItems.length], wrong=vocabItems.filter(x=>x[0]!==w).slice(0,2).map(x=>x[1]), opts=[m,...wrong].sort(()=>Math.random()-.5);
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>Fast meaning access</h3><p>Choose the meaning without translating word-by-word. Repeated fast recognition helps familiar vocabulary become less effortful.</p><div class="vocabFlash"><div><div class="word">${w}</div><div class="meaning">Choose quickly, but accurately.</div></div></div><div class="answerGrid">${opts.map(o=>`<button class="answer" onclick='answerVocab(${JSON.stringify(o)},${JSON.stringify(m)})'>${o}</button>`).join("")}</div><div style="font-size:11px;color:var(--muted);margin-top:8px">${flashIndex+1} / 6</div></div>`;
+}
+function answerVocab(ans,correct){if(ans===correct)flashCorrect++;flashIndex++;renderVocabCard()}
+function renderPace(){
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>Good readers change speed</h3><p>Choose how you would read each sentence: fast, medium, or slow. Dense syntax deserves more time.</p><div class="speedCards">${paceItems.map((x,i)=>`<div class="speedCard"><span class="type">${x.label}</span><p>${x.text}</p><div class="speedChoice"><button class="btn small" onclick="pacePick(this,${i},'fast','${x.best}')">Fast</button><button class="btn small" onclick="pacePick(this,${i},'medium','${x.best}')">Medium</button><button class="btn small" onclick="pacePick(this,${i},'slow','${x.best}')">Slow</button></div></div>`).join("")}</div><div id="paceFeedback" class="feedback"></div></div>`;lessonScore=0;window.paceAnswered={};
+}
+function pacePick(btn,i,pick,best){
+  if(window.paceAnswered[i])return;window.paceAnswered[i]=true;let ok=pick===best;if(ok)lessonScore++;
+  btn.classList.add(ok?"primary":"ghost");if(Object.keys(window.paceAnswered).length===3){let sc=Math.round(lessonScore/3*100);let f=el("paceFeedback");f.className="feedback show "+(sc>=67?"good":"bad");f.textContent=sc>=67?"Good. Efficient reading is variable-speed reading.":"The dense sentence deserves more time; the simple sentence can move faster.";finishMicroLesson(sc,"pace")}
+}
+function renderAdaptive(){
+  let d=normalize(data()), weak=Object.entries(d.skills).sort((a,b)=>a[1]-b[1])[0][0];
+  const names={chunk:"phrase recognition",flow:"forward flow",vocab:"vocabulary automaticity",pace:"flexible pacing"};
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>Your weakest skill is ${names[weak]}</h3><p>This lesson is selected from your actual performance rather than a fixed speed target.</p><div class="tip">Adaptive rule: train the lowest mastery score until it catches up with the rest.</div><button class="btn primary" onclick="renderAdaptiveDrill('${weak}')">Start targeted drill</button></div>`;
+}
+function renderAdaptiveDrill(k){if(k==="chunk")renderChunk();else if(k==="flow")renderGuide();else if(k==="vocab")renderVocab();else renderPace()}
+function renderBossLesson(){
+  let d=normalize(data()), isWorldBoss=currentLesson.id%4===0;
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>${currentLesson.id===24?'Final mastery check':'World mastery check'}</h3><p>Boss challenges do not use a universal WPM goal. They compare against your own controlled baseline and require strong comprehension.</p><div class="tip">${d.baseline?`Current baseline: <b>${Math.round(d.baseline.wpm)} WPM</b> at ${d.baseline.comp}% comprehension. Target: about ${Math.round(d.baseline.wpm*1.08)} WPM with ≥85% comprehension.`:"You do not have a controlled baseline yet. This boss will establish one."}</div><button class="btn violet" onclick="startBoss()">Start boss reading</button></div>`;
+}
+function finishMicroLesson(score,skill){
+  setTimeout(()=>{
+    let d=normalize(data()), id=currentLesson.id, stars=score>=90?3:score>=75?2:1;
+    d.completed[id]={stars,score};d.skills[skill]=Math.min(100,Math.round((d.skills[skill]*2+score)/3));
+    let xp=stars*15;d.xp+=xp;d.coins+=stars;d.quests.lesson=true;updateStreak(d);save(d);refresh();
+    toast(`+${xp} XP`,`${stars}★ mastery · ${score}% accuracy`);
+    setTimeout(()=>{show("home")},1200);
+  },700)
+}
+function updateStreak(d){
+  let today=dayKey();if(d.lastDay===today)return;
+  if(d.lastDay){let diff=Math.round((new Date(today)-new Date(d.lastDay))/86400000);d.streak=diff===1?(d.streak||0)+1:1}else d.streak=1;
+  d.lastDay=today;
+}
+function renderTopicPick(boss=false){
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>${boss?'Choose a boss text':'Read something you care about'}</h3><p>Longer, meaningful reading is part of the training. Pick a topic; the app will measure understanding afterward.</p><div class="topicGrid">${texts.map((t,i)=>`<button class="topicCard" onclick="startBuiltIn(${i},${boss})"><span>${t.level}</span><b>${t.topic}</b><span>${t.title}</span></button>`).join("")}</div></div>`;
+}
+function startExtensive(){currentLesson=null;el("lessonTitle").textContent="";renderTopicPick(false);show("lesson")}
+function startBuiltIn(i,boss=false){
+  readingText=texts[i];readingMode=boss?"boss":"extensive";bossMode=boss;startReader(readingText.title,readingText.text,readingText.topic+" · "+readingText.level);
+}
+function startBoss(){
+  let d=normalize(data());if(Object.keys(d.completed).length<4&&(!currentLesson||currentLesson.type!=="boss"))return;
+  currentLesson=currentLesson&&currentLesson.type==="boss"?currentLesson:null;renderTopicPick(true);show("lesson")
+}
+function startReader(title,text,sub){
+  el("readerTitle").textContent=title;el("readerSub").textContent=sub;el("reader").innerHTML=text.split(/\n\s*\n/).map(p=>`<p>${p}</p>`).join("");readingStart=Date.now();el("timer").textContent="00:00";clearInterval(window.readTimer);window.readTimer=setInterval(()=>{let s=Math.floor((Date.now()-readingStart)/1000);el("timer").textContent=String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")},250);show("readerScreen")
+}
+function finishReading(){
+  readingSeconds=Math.max(20,(Date.now()-readingStart)/1000);clearInterval(window.readTimer);
+  if(readingText&&readingText.questions){readingQuiz={};renderReadingQuiz();show("quizScreen")}else finishCustomReading()
+}
+function renderReadingQuiz(){
+  el("quizBox").innerHTML=readingText.questions.map((q,qi)=>{let opts=[q[1],...q[2]].sort(()=>Math.random()-.5);return `<div class="lessonBox"><h3>${qi+1}. ${q[0]}</h3>${opts.map(o=>`<button class="answer" data-q="${qi}" onclick='pickQuiz(this,${qi},${JSON.stringify(o)})'>${o}</button>`).join("")}</div>`}).join("")
+}
+function pickQuiz(btn,q,a){readingQuiz[q]=a;document.querySelectorAll(`.answer[data-q="${q}"]`).forEach(x=>x.classList.remove("selected"));btn.classList.add("selected")}
+function scoreReadingQuiz(){
+  if(Object.keys(readingQuiz).length<readingText.questions.length){toast("Finish the check","Answer all questions first.");return}
+  let correct=0;readingText.questions.forEach((q,i)=>{if(readingQuiz[i]===q[1])correct++});let comp=Math.round(correct/readingText.questions.length*100);finishScoredReading(comp)
+}
+function wordCount(s){return s.trim().split(/\s+/).length}
+function finishScoredReading(comp){
+  let d=normalize(data()), wpm=Math.round(wordCount(readingText.text)/(readingSeconds/60)), minutes=readingSeconds/60;
+  d.realMinutes+=minutes;d.quests.read=(d.quests.read||0)+minutes;
+  let controlled=comp>=85, xp=controlled?35:10, bossWon=false, oldBaseline=d.baseline?{...d.baseline}:null;
+  if(comp>=85)d.quests.comp=true;
+
+  if(readingMode==="boss"){
+    let target=oldBaseline?oldBaseline.wpm*1.08:null;
+    bossWon=comp>=85 && (!target || wpm>=target);
+    if(!oldBaseline && comp>=85)d.baseline={wpm,comp};
+    else if(bossWon)d.baseline={wpm,comp};
+    xp=bossWon?90:15;if(bossWon)d.coins+=8;
+  } else if(controlled && !d.baseline){
+    d.baseline={wpm,comp};
+  }
+
+  d.sessions.push({date:new Date().toISOString(),wpm,comp,mode:readingMode});d.xp+=xp;updateStreak(d);
+
+  if(currentLesson && currentLesson.type==="extensive"){
+    let stars=comp>=90?3:comp>=85?2:1;
+    d.completed[currentLesson.id]={stars,score:comp};
+    d.skills.flow=Math.min(100,Math.round((d.skills.flow*2+comp)/3));
+  }
+  if(currentLesson && currentLesson.type==="boss"){
+    let stars=bossWon?3:(comp>=85?2:1);
+    d.completed[currentLesson.id]={stars,score:comp};
+  }
+
+  save(d);
+  let compareBase=oldBaseline?oldBaseline.wpm:(d.baseline?d.baseline.wpm:null);
+  let delta=compareBase?Math.round((wpm-compareBase)/compareBase*100):null;
+  el("resWpm").innerHTML=wpm+'<small> WPM</small>';el("resComp").textContent=comp+"%";el("resDelta").textContent=oldBaseline?(delta>=0?"+":"")+delta+"%":"baseline";el("resXP").textContent="+"+xp+" XP";
+  el("resMessage").textContent=comp>=85?"Controlled reading: meaning stayed strong.":"Practice result: the pace outran understanding.";
+  el("resultCoach").textContent=readingMode==="boss"?(bossWon?"Boss cleared. The target was based on your previous controlled baseline, and comprehension stayed strong.":"Boss not cleared. Keep ≥85% comprehension and train the weakest skill before pushing speed."):(comp>=85?"Good. Keep building familiarity through real reading as well as drills.":"Slow down on dense sentences and strengthen vocabulary before raising pace.");
+  refresh();show("results")
+}
+function openCustom(){el("customModal").classList.add("show")}function closeCustom(){el("customModal").classList.remove("show")}
+function useCustom(){let t=el("customText").value.trim();if(wordCount(t)<100){toast("More text needed","Paste at least 100 words.");return}closeCustom();readingText={title:"Your text",text:t,questions:null};readingMode="custom";startReader("Your text",t,"Personal reading · comprehension self-check")}
+function finishCustomReading(){
+  let d=normalize(data()), minutes=readingSeconds/60,wpm=Math.round(wordCount(readingText.text)/(readingSeconds/60));d.realMinutes+=minutes;d.quests.read=(d.quests.read||0)+minutes;d.xp+=10;updateStreak(d);save(d);
+  el("resWpm").innerHTML=wpm+'<small> WPM</small>';el("resComp").textContent="unscored";el("resDelta").textContent="—";el("resXP").textContent="+10 XP";el("resMessage").textContent="Real-reading practice completed.";el("resultCoach").textContent="Custom texts build reading volume, but they do not change your controlled baseline because comprehension was not independently checked.";refresh();show("results")
+}
+
+/* ===================== V4 OVERRIDES ===================== */
+
+// Repurpose the final world to explicitly teach transfer and strategic skimming.
+worlds[5][0]="Reading Gears";
+worlds[5][1]="Transfer fluency, then learn purposeful skimming";
+worlds[5][2]=["Repeat → transfer","Skim for gist","Personal weak spot","Final boss"];
+lessons[20].title="Repeat → transfer"; lessons[20].type="repeat";
+lessons[21].title="Skim for gist"; lessons[21].type="skim";
+lessons[22].title="Personal weak spot"; lessons[22].type="adaptive";
+lessons[23].title="Final boss"; lessons[23].type="boss";
+
+const denseText={
+ topic:"Reasoning",level:"B2–C1",difficulty:"dense",title:"Why correlation can disappear",
+ keywords:["correlation","cause","confounder","evidence"],
+ text:`A correlation between two variables can look persuasive while still giving a misleading picture of cause. Imagine that a study finds people who use a certain learning app achieve higher examination scores. It would be tempting to conclude that the app caused the improvement.
+
+However, app users may differ from non-users in other ways. They might study more often, have stronger prior knowledge, or receive more support at home. A variable that is associated with both the supposed cause and the outcome can distort the apparent relationship; such a variable is often called a confounder.
+
+Researchers therefore try to control for plausible alternative explanations. If the original correlation becomes much weaker after controlling for prior achievement and study time, confidence in a direct causal explanation should fall. The app may still help, but the first comparison did not isolate its effect.
+
+This does not mean observational data are useless. It means conclusions should match the design of the evidence. Strong claims require methods capable of ruling out credible alternatives.`,
+ questions:[
+  ["What is the main lesson?","A correlation alone may not establish a causal explanation.",["All correlations are useless.","Apps cannot improve learning."]],
+  ["What is a confounder?","A variable related to both the supposed cause and the outcome.",["A measurement with no variation.","A random spelling error."]],
+  ["What should happen if a correlation collapses after controls?","Confidence in the original causal explanation should decrease.",["The original claim becomes certain.","Researchers should ignore the controls."]]
+ ]
+};
+
+const skimText={
+ topic:"Cities",level:"B2",difficulty:"normal",title:"Why cities are redesigning streets",
+ keywords:["cities","street","space","transport","trade-offs"],
+ text:`For much of the twentieth century, many cities redesigned streets around the movement and storage of private cars. Wide traffic lanes and extensive parking became normal even in dense neighborhoods.
+
+That approach is now being reconsidered. Some cities are reallocating street space to buses, bicycles, trees, wider pavements, and outdoor seating. Supporters argue that streets are public space and should serve more purposes than vehicle movement.
+
+The changes are controversial because street space is limited. Adding a protected cycle lane may remove parking. Giving buses priority may reduce capacity for private cars. Residents and businesses can therefore experience the same redesign very differently.
+
+Evidence also varies by project. A successful redesign in one neighborhood does not guarantee identical results elsewhere. Population density, public transport, local commerce, and existing travel habits all matter.
+
+The deeper debate is not simply about cars versus bicycles. It is about which uses of scarce urban space cities choose to prioritize, and how they measure the effects of those choices.`,
+ questions:[
+  ["What is the passage mainly about?","Cities are reconsidering how limited street space should be allocated.",["Cities are banning all cars.","Parking is becoming free."]],
+  ["Why is the third paragraph included?","To explain trade-offs and disagreement around redesigns.",["To describe the history of bicycles.","To prove every redesign succeeds."]],
+  ["Which factor affects whether a redesign transfers well?","Population density.",["Ocean temperature.","School uniforms."]]
+ ]
+};
+
+texts[0].difficulty="easy";   texts[0].keywords=["recommendation","patterns","relevance","variety"];
+texts[1].difficulty="normal"; texts[1].keywords=["sleep","memory","consolidation","attention"];
+texts[2].difficulty="normal"; texts[2].keywords=["slang","identity","expression","learners"];
+if(!texts.some(t=>t.title===denseText.title)) texts.push(denseText);
+if(!texts.some(t=>t.title===skimText.title)) texts.push(skimText);
+
+let selectedReadingMode="fluency", selectedDifficulty="normal", lastRecallScore=null, vocabSession=[], transferStage=0;
+
+function data(){
+  const empty={
+    xp:0,coins:0,completed:{},skills:{chunk:0,flow:0,vocab:0,pace:0,skim:0,recall:0},
+    sessions:[],realMinutes:0,lastDay:null,streak:0,
+    quests:{day:null,lesson:false,comp:false,read:0},
+    baselines:{fluency:{easy:[],normal:[],dense:[]},careful:{easy:[],normal:[],dense:[]},skim:{easy:[],normal:[],dense:[]}},
+    vocabSchedule:{}
+  };
+  try{
+    const old=JSON.parse(localStorage.getItem("velocityV4")) || JSON.parse(localStorage.getItem("velocityV2")) || {};
+    const d=Object.assign({},empty,old);
+    d.skills=Object.assign({},empty.skills,old.skills||{});
+    d.quests=Object.assign({},empty.quests,old.quests||{});
+    d.baselines=old.baselines||empty.baselines;
+    ["fluency","careful","skim"].forEach(m=>d.baselines[m]=Object.assign({easy:[],normal:[],dense:[]},d.baselines[m]||{}));
+    d.vocabSchedule=old.vocabSchedule||{};
+    return d;
+  }catch(e){return empty}
+}
+function save(d){localStorage.setItem("velocityV4",JSON.stringify(d))}
+function normalize(d){
+  d.completed=d.completed||{};
+  d.skills=Object.assign({chunk:0,flow:0,vocab:0,pace:0,skim:0,recall:0},d.skills||{});
+  d.quests=Object.assign({day:null,lesson:false,comp:false,read:0},d.quests||{});
+  d.baselines=d.baselines||{fluency:{easy:[],normal:[],dense:[]},careful:{easy:[],normal:[],dense:[]},skim:{easy:[],normal:[],dense:[]}};
+  ["fluency","careful","skim"].forEach(m=>d.baselines[m]=Object.assign({easy:[],normal:[],dense:[]},d.baselines[m]||{}));
+  d.vocabSchedule=d.vocabSchedule||{};
+  if(d.quests.day!==dayKey())d.quests={day:dayKey(),lesson:false,comp:false,read:0};
+  return d
+}
+function median(a){if(!a.length)return null;let x=[...a].sort((p,q)=>p-q),m=Math.floor(x.length/2);return x.length%2?x[m]:(x[m-1]+x[m])/2}
+function matchedBaseline(mode,diff){
+  let arr=normalize(data()).baselines[mode][diff].slice(-5).filter(x=>x.comp>=85).map(x=>x.wpm);
+  return median(arr)
+}
+function seedSchedule(){
+  let d=normalize(data());
+  vocabItems.forEach(([w,m])=>{if(!d.vocabSchedule[w])d.vocabSchedule[w]={meaning:m,box:0,due:0,seen:0,correct:0}});
+  save(d)
+}
+function dueWords(){
+  seedSchedule();let d=normalize(data()),now=Date.now();
+  return Object.entries(d.vocabSchedule).filter(([_,v])=>(v.due||0)<=now).map(([word,v])=>({word,...v}))
+}
+function fmtB(m,d){let b=matchedBaseline(m,d);return b?Math.round(b):"—"}
+function renderBaselines(){
+  let rows=["fluency","careful","skim"].map(m=>`<div class="baselineRow"><b>${m}</b><span>${fmtB(m,"easy")}</span><span>${fmtB(m,"normal")}</span><span>${fmtB(m,"dense")}</span></div>`).join("");
+  el("baselineTable").innerHTML=`<div class="baselineRow"><b>mode</b><span>easy</span><span>normal</span><span>dense</span></div>${rows}`
+}
+
+function refresh(){
+  let d=normalize(data());save(d);seedSchedule();
+  let level=Math.floor(d.xp/100)+1,inLevel=d.xp%100;
+  const ranks=["Phrase Rookie","Flow Builder","Word Runner","Fluency Ranger","Meaning Ace","Independent Reader"];
+  el("levelName").textContent="Level "+level;el("rankName").textContent=ranks[Math.min(ranks.length-1,Math.floor((level-1)/2))];
+  el("xpFill").style.width=inLevel+"%";el("xpText").textContent=d.xp+" XP";el("xpNext").textContent=(100-inLevel)+" XP to next level";el("coins").textContent=d.coins;el("streak").textContent=d.streak||0;
+  let sessions=d.sessions||[],scored=sessions.filter(s=>s.comp!=null),normal=matchedBaseline("fluency","normal");
+  el("controlledWpm").textContent=normal?Math.round(normal):"—";
+  el("avgComp").textContent=scored.length?Math.round(scored.reduce((a,s)=>a+s.comp,0)/scored.length)+"%":"—";
+  el("dueCount").textContent=dueWords().length;el("readMinutes").textContent=Math.round(d.realMinutes||0);
+  let comps=Object.keys(d.completed).length;el("coursePosition").textContent=comps+" / 24";
+  ["chunk","flow","vocab","pace","skim","recall"].forEach(k=>{
+    let id=k[0].toUpperCase()+k.slice(1),v=Math.round(d.skills[k]||0),bar=el("s"+id),txt=el("s"+id+"Txt");
+    if(bar)bar.style.width=v+"%";if(txt)txt.textContent=v+"%"
+  });
+  el("qLesson").style.width=(d.quests.lesson?100:0)+"%";el("qComp").style.width=(d.quests.comp?100:0)+"%";el("qRead").style.width=Math.min(100,(d.quests.read||0)/10*100)+"%";
+  let weak=Object.entries(d.skills).sort((a,b)=>a[1]-b[1])[0][0], names={chunk:"phrase recognition",flow:"forward flow",vocab:"vocabulary automaticity",pace:"flexible pacing",skim:"strategic skimming",recall:"active recall"};
+  el("coachNote").textContent=comps<3?"The course teaches skills before measurement. WPM becomes meaningful only with comprehension and matched difficulty.":`Current weakest skill: ${names[weak]}. The course revisits this rather than simply pushing speed.`;
+  el("whyNext").textContent=`Next priority: ${names[weak]}. Skimming, careful reading and fluency are scored separately.`;
+  el("bossBtn").disabled=comps<4;el("bossBtn").textContent=comps<4?"Unlock after 4 lessons":"Attempt matched boss";
+  renderCourse();renderBaselines()
+}
+
+function renderLessonType(type){
+  if(type==="chunk")renderChunk();
+  else if(type==="flash")renderFlashIntro();
+  else if(type==="guide")renderGuide();
+  else if(type==="vocab")renderVocab();
+  else if(type==="pace")renderPace();
+  else if(type==="extensive")renderTopicPick(false);
+  else if(type==="mixed")renderChunk(true);
+  else if(type==="adaptive")renderAdaptive();
+  else if(type==="repeat")renderRepeatedTransfer();
+  else if(type==="skim")renderSkimLesson();
+  else if(type==="boss")renderBossLesson()
+}
+
+function chooseReadingMode(mode){
+  selectedReadingMode=mode;currentLesson=null;
+  el("lessonKicker").textContent="Reading gear";
+  el("lessonTitle").textContent=mode==="fluency"?"Fluency reading":mode==="careful"?"Careful reading":"Skim for gist";
+  el("lessonSubtitle").textContent=mode==="skim"?"Gist and structure are the target; this rate never enters normal-reading scores.":"Choose a matched difficulty before reading.";
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>Choose difficulty</h3><p>Velocity compares results only within the same reading mode and similar text difficulty.</p><div class="difficultyGrid"><button class="diff" onclick="familiarityGate('${mode}','easy')"><b>Easy</b><span>B1 · ideal for fluency</span></button><button class="diff" onclick="familiarityGate('${mode}','normal')"><b>Normal</b><span>B2 · everyday informational text</span></button><button class="diff" onclick="familiarityGate('${mode}','dense')"><b>Dense</b><span>B2–C1 · complex reasoning</span></button></div></div>`;
+  show("lesson")
+}
+function familiarityGate(mode,diff){
+  selectedReadingMode=mode;selectedDifficulty=diff;
+  if(mode!=="fluency"){startModeReading(mode,diff);return}
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>Fluency text check</h3><p>For fluency training, the text should feel very familiar. If unfamiliar vocabulary interrupts nearly every sentence, use a lower difficulty instead of forcing speed.</p><div class="familiarity"><button onclick="startModeReading('${mode}','${diff}')"><b>Almost all familiar</b><span>Good fluency material</span></button><button onclick="startModeReading('${mode}','${diff}')"><b>A few unknown</b><span>Still workable</span></button><button onclick="chooseReadingMode('fluency')"><b>Many unknown</b><span>Choose easier text</span></button></div></div>`
+}
+function pickText(mode,diff){
+  if(mode==="skim")return texts.find(t=>t.title==="Why cities are redesigning streets");
+  if(diff==="dense")return texts.find(t=>t.difficulty==="dense");
+  if(diff==="easy")return texts.find(t=>t.difficulty==="easy");
+  return texts.find(t=>t.difficulty==="normal")
+}
+function startModeReading(mode,diff){
+  selectedReadingMode=mode;selectedDifficulty=diff;readingText=pickText(mode,diff);readingMode=mode;bossMode=false;
+  startReader(readingText.title,readingText.text,`${mode.toUpperCase()} · ${diff} · ${readingText.level}`)
+}
+
+function renderSkimLesson(){
+  selectedReadingMode="skim";selectedDifficulty="normal";readingText=texts.find(t=>t.title==="Why cities are redesigning streets");readingMode="skim";
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>Skimming is a different reading gear</h3><p>Do not try to remember every detail. Look for the topic, paragraph roles, contrasts, and the author's main conclusion.</p><div class="tip">Mission: identify the central claim and why the issue is controversial. Your skim score never raises your normal fluency baseline.</div><button class="btn primary" onclick="startReader(readingText.title,readingText.text,'SKIM · 75-second gist mission')">Start skim mission</button></div>`
+}
+
+function renderRepeatedTransfer(){
+  transferStage=0;
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>Repeat once — then prove transfer</h3><p>Repeated reading can make one passage easier. The important question is whether the fluency transfers to fresh wording.</p><div class="transferGrid"><div class="transferCard"><b>Pass 1 · Familiarize</b><p>A useful learning system gives feedback while the learner still remembers the decision that produced the result.</p></div><div class="transferCard"><b>Pass 2 · New wording</b><p>Transfer is tested on a new sentence expressing a related idea rather than repeatedly rehearsing the same words.</p></div></div><div class="paper" id="transferText" style="margin-top:12px">A useful learning system gives feedback while the learner still remembers the decision that produced the result.</div><div class="row" style="margin-top:12px"><button class="btn primary" id="transferBtn" onclick="advanceTransfer()">Read first pass</button></div></div>`
+}
+function advanceTransfer(){
+  let box=el("transferText"),btn=el("transferBtn");
+  if(transferStage===0){transferStage=1;box.textContent="Read it once more, smoothly: A useful learning system gives feedback while the learner still remembers the decision that produced the result.";btn.textContent="Now test transfer"}
+  else if(transferStage===1){transferStage=2;box.textContent="Effective practice works best when feedback arrives soon enough for learners to connect an outcome with the choice that caused it.";btn.textContent="I understood the new version"}
+  else finishMicroLesson(90,"flow")
+}
+
+function renderBossLesson(){
+  let b=matchedBaseline("fluency","normal");
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>Rolling matched-baseline challenge</h3><p>Bosses compare new text against the median of recent successful readings at the same difficulty. One unusually fast attempt cannot redefine your level.</p><div class="tip">${b?`Current normal-fluency median: <b>${Math.round(b)} WPM</b>. Clear the boss by matching or improving it while keeping ≥85% comprehension.`:"Complete successful normal-fluency readings to establish the first rolling baseline."}</div><button class="btn violet" onclick="startBoss()">Choose boss text</button></div>`
+}
+function startBoss(){
+  let d=normalize(data());if(Object.keys(d.completed).length<4&&(!currentLesson||currentLesson.type!=="boss"))return;
+  selectedReadingMode="fluency";readingMode="boss";currentLesson=currentLesson&&currentLesson.type==="boss"?currentLesson:null;renderTopicPick(true);show("lesson")
+}
+function renderTopicPick(boss=false){
+  let choices=texts.slice(0,4);
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>${boss?'Choose a matched boss text':'Read something you care about'}</h3><p>${boss?'The target uses a rolling median from the same difficulty.':'Meaningful reading builds volume. Pick a topic and preserve understanding.'}</p><div class="topicGrid">${choices.map((t,i)=>`<button class="topicCard" onclick="startBuiltIn(${i},${boss})"><span>${t.level} · ${t.difficulty||"normal"}</span><b>${t.topic}</b><span>${t.title}</span></button>`).join("")}</div></div>`
+}
+function startBuiltIn(i,boss=false){
+  readingText=texts[i];selectedDifficulty=readingText.difficulty||"normal";readingMode=boss?"boss":selectedReadingMode;bossMode=boss;
+  startReader(readingText.title,readingText.text,`${boss?"BOSS":readingMode.toUpperCase()} · ${selectedDifficulty} · ${readingText.level}`)
+}
+
+function renderReadingQuiz(){
+  readingQuiz={};
+  el("quizBox").innerHTML=readingText.questions.map((q,qi)=>{let opts=[q[1],...q[2]].sort(()=>Math.random()-.5);return `<div class="lessonBox"><h3>${qi+1}. ${q[0]}</h3>${opts.map(o=>`<button class="answer" data-q="${qi}" onclick='pickQuiz(this,${qi},${JSON.stringify(o)})'>${o}</button>`).join("")}</div>`}).join("");
+  el("recallBox").classList.toggle("hidden",readingMode==="skim");el("recallText").value=""
+}
+function recallScore(text){
+  if(readingMode==="skim")return null;
+  let kws=(readingText.keywords||[]).map(x=>x.toLowerCase()),low=(text||"").toLowerCase();
+  if(!low.trim())return 0;
+  let hits=kws.filter(k=>low.includes(k)).length,lengthBonus=low.trim().split(/\s+/).length>=10?15:0;
+  return Math.min(100,Math.round((hits/Math.max(1,Math.min(3,kws.length)))*85+lengthBonus))
+}
+function scoreReadingQuiz(){
+  if(Object.keys(readingQuiz).length<readingText.questions.length){toast("Finish the check","Answer all questions first.");return}
+  let correct=0;readingText.questions.forEach((q,i)=>{if(readingQuiz[i]===q[1])correct++});
+  let mc=Math.round(correct/readingText.questions.length*100);
+  if(readingMode==="skim"){lastRecallScore=null;finishScoredReading(mc);return}
+  let txt=el("recallText").value.trim();if(!txt){toast("Use active recall","Write 1–2 sentences before scoring.");return}
+  lastRecallScore=recallScore(txt);finishScoredReading(Math.round(mc*.65+lastRecallScore*.35))
+}
+
+function finishScoredReading(comp){
+  let d=normalize(data()),wpm=Math.round(wordCount(readingText.text)/(readingSeconds/60)),minutes=readingSeconds/60;
+  d.realMinutes+=minutes;d.quests.read=(d.quests.read||0)+minutes;
+  let mode=readingMode==="boss"?"fluency":readingMode,diff=selectedDifficulty||readingText.difficulty||"normal",oldBase=matchedBaseline(mode,diff);
+  let threshold=mode==="skim"?70:85,valid=comp>=threshold,bossWon=false;
+  if(valid){d.baselines[mode][diff].push({wpm,comp,date:new Date().toISOString()});d.baselines[mode][diff]=d.baselines[mode][diff].slice(-8)}
+  if(mode==="skim")d.skills.skim=Math.min(100,Math.round((d.skills.skim*2+comp)/3));
+  else{d.skills.flow=Math.min(100,Math.round((d.skills.flow*2+(valid?90:60))/3));d.skills.recall=Math.min(100,Math.round((d.skills.recall*2+(lastRecallScore||0))/3))}
+  if(mode!=="skim"&&comp>=85)d.quests.comp=true;
+  if(readingMode==="boss")bossWon=valid&&(!oldBase||wpm>=oldBase);
+  let xp=readingMode==="boss"?(bossWon?90:15):(valid?35:10);d.xp+=xp;if(bossWon)d.coins+=8;
+  d.sessions.push({date:new Date().toISOString(),wpm,comp,recall:lastRecallScore,mode,difficulty:diff});updateStreak(d);
+  if(currentLesson&&currentLesson.type==="extensive"){let st=comp>=90?3:comp>=85?2:1;d.completed[currentLesson.id]={stars:st,score:comp}}
+  if(currentLesson&&currentLesson.type==="skim"){let st=comp>=90?3:comp>=70?2:1;d.completed[currentLesson.id]={stars:st,score:comp}}
+  if(currentLesson&&currentLesson.type==="boss"){let st=bossWon?3:(valid?2:1);d.completed[currentLesson.id]={stars:st,score:comp}}
+  save(d);
+  let delta=oldBase?Math.round((wpm-oldBase)/oldBase*100):null,newBase=matchedBaseline(mode,diff);
+  el("resWpm").innerHTML=wpm+'<small> WPM</small>';el("resComp").textContent=comp+"%";el("resRecall").textContent=mode==="skim"?"not scored":(lastRecallScore+"%");
+  el("resDelta").textContent=oldBase?((delta>=0?"+":"")+delta+"%"):"new baseline";el("resXP").textContent="+"+xp+" XP";
+  el("resMessage").textContent=valid?(mode==="skim"?"Successful skim: the gist survived.":"Controlled reading: understanding stayed strong."):(mode==="skim"?"The skim was too aggressive: the structure was lost.":"The pace outran understanding.");
+  el("resultCoach").textContent=mode==="skim"?"This score belongs only to the skimming profile; it never raises your normal-reading baseline.":readingMode==="boss"?(bossWon?"Boss cleared against a rolling matched baseline.":"Boss not cleared. Keep comprehension strong before pushing speed."):`Compared only with ${mode} / ${diff}. ${newBase?`Rolling median: ${Math.round(newBase)} WPM.`:"Keep collecting matched readings."}`;
+  refresh();show("results")
+}
+
+/* Spaced vocabulary */
+function renderVocab(){
+  seedSchedule();vocabSession=dueWords().slice(0,6).map(x=>[x.word,x.meaning]);
+  if(vocabSession.length===0)vocabSession=Object.entries(normalize(data()).vocabSchedule).slice(0,6).map(([w,v])=>[w,v.meaning]);
+  flashIndex=0;flashCorrect=0;renderVocabCard()
+}
+function renderVocabCard(){
+  if(flashIndex>=vocabSession.length){
+    if(currentLesson)finishMicroLesson(Math.round(flashCorrect/Math.max(1,vocabSession.length)*100),"vocab");
+    else{toast("Review complete",`${flashCorrect}/${vocabSession.length} recalled`);setTimeout(()=>{show("home");refresh()},900)}
+    return
+  }
+  let [w,m]=vocabSession[flashIndex],wrong=vocabItems.filter(x=>x[0]!==w).slice(0,2).map(x=>x[1]),opts=[m,...wrong].sort(()=>Math.random()-.5),sched=normalize(data()).vocabSchedule[w];
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>Spaced retrieval</h3><p>Correct words come back later; missed words return sooner.</p><div class="vocabFlash"><div><div class="word">${w}</div><div class="meaning">Choose from memory.</div><div class="vocabDue">memory box ${sched.box||0}</div></div></div><div class="answerGrid">${opts.map(o=>`<button class="answer" onclick='answerVocabV4(${JSON.stringify(w)},${JSON.stringify(o)},${JSON.stringify(m)})'>${o}</button>`).join("")}</div><div style="font-size:11px;color:var(--muted);margin-top:8px">${flashIndex+1} / ${vocabSession.length}</div></div>`
+}
+function answerVocabV4(w,ans,correct){
+  let d=normalize(data()),v=d.vocabSchedule[w],ok=ans===correct;
+  if(ok){flashCorrect++;v.correct=(v.correct||0)+1;v.box=Math.min(4,(v.box||0)+1)}else v.box=Math.max(0,(v.box||0)-1);
+  v.seen=(v.seen||0)+1;let intervals=[1,3,7,14,30],days=intervals[v.box]||30;v.due=Date.now()+days*86400000;d.vocabSchedule[w]=v;save(d);flashIndex++;renderVocabCard()
+}
+function reviewDueVocab(){
+  currentLesson=null;el("lessonKicker").textContent="Spaced vocabulary";el("lessonTitle").textContent="Review due words";el("lessonSubtitle").textContent="Words return across days instead of being marked learned after one definition.";renderVocab();show("lesson")
+}
+
+/* Custom reading remains useful for volume, but never changes a scored baseline. */
+function finishCustomReading(){
+  let d=normalize(data()),minutes=readingSeconds/60,wpm=Math.round(wordCount(readingText.text)/(readingSeconds/60));d.realMinutes+=minutes;d.quests.read=(d.quests.read||0)+minutes;d.xp+=10;updateStreak(d);save(d);
+  el("resWpm").innerHTML=wpm+'<small> WPM</small>';el("resComp").textContent="unscored";el("resRecall").textContent="self-check";el("resDelta").textContent="—";el("resXP").textContent="+10 XP";el("resMessage").textContent="Real-reading practice completed.";el("resultCoach").textContent="Custom texts build reading volume, but they never change a controlled baseline without an independent comprehension check.";refresh();show("results")
+}
+
+
+/* V4 final tightening: timed skims + six-skill adaptation */
+function startReader(title,text,sub){
+  clearTimeout(window.skimTimeout);
+  el("readerTitle").textContent=title;el("readerSub").textContent=sub;
+  el("reader").innerHTML=text.split(/\n\s*\n/).map(p=>`<p>${p}</p>`).join("");
+  readingStart=Date.now();el("timer").textContent=readingMode==="skim"?"01:15":"00:00";
+  clearInterval(window.readTimer);
+  window.readTimer=setInterval(()=>{
+    let s=Math.floor((Date.now()-readingStart)/1000);
+    if(readingMode==="skim"){
+      let left=Math.max(0,75-s);
+      el("timer").textContent=String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0");
+    }else{
+      el("timer").textContent=String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+    }
+  },250);
+  if(readingMode==="skim"){
+    window.skimTimeout=setTimeout(()=>{if(el("readerScreen").classList.contains("active"))finishReading()},75000);
+  }
+  show("readerScreen")
+}
+function finishReading(){
+  readingSeconds=Math.max(20,(Date.now()-readingStart)/1000);clearInterval(window.readTimer);clearTimeout(window.skimTimeout);
+  if(readingText&&readingText.questions){readingQuiz={};renderReadingQuiz();show("quizScreen")}else finishCustomReading()
+}
+
+function renderRecallDrill(){
+  const text="Sleep helps newly learned information become more stable. This process supports memory, but it does not replace focused practice.";
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>Recall the idea, not the exact wording</h3><p>Read once, hide the text mentally, then explain the central idea in your own words.</p><div class="paper">${text}</div><div class="recallBox"><textarea id="microRecall" placeholder="In one sentence..."></textarea></div><div class="row" style="margin-top:12px"><button class="btn primary" onclick="checkMicroRecall()">Check recall</button></div><div id="microRecallFeedback" class="feedback"></div></div>`
+}
+function checkMicroRecall(){
+  let t=(el("microRecall").value||"").toLowerCase().trim();
+  if(!t){toast("Write from memory","Use one sentence.");return}
+  let concepts=["sleep","memory","practice"],hits=concepts.filter(k=>t.includes(k)).length,score=hits>=2?90:hits===1?65:40;
+  let f=el("microRecallFeedback");f.className="feedback show "+(score>=75?"good":"bad");
+  f.textContent=score>=75?"Good recall: you preserved the main relationship rather than copying the sentence.":"Try again mentally: what does sleep support, and what does it not replace?";
+  finishMicroLesson(score,"recall")
+}
+function renderAdaptive(){
+  let d=normalize(data()),weak=Object.entries(d.skills).sort((a,b)=>a[1]-b[1])[0][0];
+  const names={chunk:"phrase recognition",flow:"forward flow",vocab:"vocabulary automaticity",pace:"flexible pacing",skim:"strategic skimming",recall:"active recall"};
+  el("lessonContent").innerHTML=`<div class="lessonBox"><h3>Your weakest skill is ${names[weak]}</h3><p>This lesson is chosen from actual skill scores rather than from a fixed WPM target.</p><div class="tip">Adaptive rule: train the lowest mastery dimension until it catches up with the rest.</div><button class="btn primary" onclick="renderAdaptiveDrill('${weak}')">Start targeted drill</button></div>`
+}
+function renderAdaptiveDrill(k){
+  if(k==="chunk")renderChunk();
+  else if(k==="flow")renderGuide();
+  else if(k==="vocab")renderVocab();
+  else if(k==="pace")renderPace();
+  else if(k==="skim")renderSkimLesson();
+  else renderRecallDrill()
+}
+
+refresh();
+
+</script>
+</body>
+</html>
